@@ -16,13 +16,7 @@ export default class Quiz extends React.Component {
   }
   componentDidMount(){
     // Create objectives
-    //la suma de la puntuación tiene que ser 1
-    //la suma de los scores tiene que ser 1
-    //progress_measure es el completion status
-    //ids distintos
-
-    let objective = new Utils.objective({id:"MyQuiz", progress_measure:0.5, score:1});
-    let objective2 = new Utils.objective({id:"MyQuiz", progress_measure:0.5, score:0});
+    let objective = new Utils.objective({id:"MyQuiz", progress_measure:1, score:1});
     this.props.dispatch(addObjectives([objective]));
   }
   handleChoiceChange(choice){
@@ -59,7 +53,6 @@ export default class Quiz extends React.Component {
 
     // Send data via SCORM
     let objective = this.props.tracking.objectives.MyQuiz;
-    //caso concreto de quiz, se saca scorePercentage de la pregunta
     this.props.dispatch(objectiveAccomplished(objective.id, objective.score * scorePercentage));
 
     // Mark quiz as answered
