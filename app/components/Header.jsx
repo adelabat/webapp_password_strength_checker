@@ -9,22 +9,22 @@ export default class Header extends React.Component {
     let trackingTexts = [];
 
     if(typeof this.props.tracking.progress_measure === "number"){
-      trackingTexts.push("Progress Measure: " + (this.props.tracking.progress_measure * 100) + "%");
+      trackingTexts.push("Progreso: " + (this.props.tracking.progress_measure * 100) + "%");
     } else {
-      trackingTexts.push("Progress Measure: null");
+      trackingTexts.push("Progreso: sin empezar");
     }
     if(typeof this.props.tracking.score === "number"){
-      trackingTexts.push("Score: " + (this.props.tracking.score * 100) + "%");
+      trackingTexts.push("Puntuación: " + (this.props.tracking.score * 100) + "%");
     } else {
-      trackingTexts.push("Score: null");
+      trackingTexts.push("Puntuación: sin intentos");
     }
     if(this.props.user_profile){
       if((typeof this.props.user_profile.name === "string")){
-        loggedText = ("Logged as " + this.props.user_profile.name);
+        loggedText = ("Logueado como " + this.props.user_profile.name);
       }
       if(typeof this.props.user_profile.learner_preference === "object"){
         if(typeof this.props.user_profile.learner_preference.difficulty === "number"){
-          trackingTexts.push("Difficulty: " + this.props.user_profile.learner_preference.difficulty);
+          trackingTexts.push("Dificultad: " + this.props.user_profile.learner_preference.difficulty);
         }
       }
     }
@@ -39,7 +39,7 @@ export default class Header extends React.Component {
 
     return (
       <div>
-        <h1 id="heading">SCORM Application React Boilerplate</h1>
+        <h1 id="heading">Comprueba la Fortaleza de Contraseñas</h1>
         <p id="tracking">{trackingEls}</p>
         {loggedEl}
       </div>
