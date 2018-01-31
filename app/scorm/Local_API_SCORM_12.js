@@ -4,7 +4,7 @@
  *
  * Modifiyed by GING.
  *
- * Original provided by: 
+ * Original provided by:
  *
  * Copyright (c) 2011-2012 Mark Statkus <mark@cybercussion.com>
  * The MIT License
@@ -405,7 +405,7 @@ function Local_API_SCORM_12(options){
   };
 
   function triggerHandler(eventName,eventParams){
-    //CustomEvent polyfill 
+    //CustomEvent polyfill
     (function () {
       if (typeof window.CustomEvent === "function") return false;
       function CustomEvent(event,params){
@@ -437,7 +437,7 @@ function Local_API_SCORM_12(options){
   this.LMSInitialize = function() {
     debug(settings.prefix + ":  Initializing...",3);
      cmi = settings.CMI;
-    
+
     // Clean CMI Object
     settings.initialized = 1;
     settings.terminated = 0;

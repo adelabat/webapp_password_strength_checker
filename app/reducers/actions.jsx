@@ -27,10 +27,11 @@ export function objectiveAccomplished(objectiveId, accomplishedScore = null){
   };
 }
 
-function newPass(password){
+function newPass(password, username){
   return {
     type:'NEW_PASSWORD_TO_CHECK',
     password:password,
+    username:username
   }
 }
 
@@ -39,10 +40,10 @@ function newPass(password){
 //la opción alternativa a hacerlo así, que yo haya visto, es hacerlo en willreceiveprops
 //ver si nextprops ha cambiado el progress y lanzar otra action ahí, pero esto de thunk me ha
 //parecido más correcto
-export function newPassWithScorm(password) {
+export function newPassWithScorm(password, username) {
     return (dispatch, getState) => {
         const firstState = getState();
-        dispatch(newPass(password));
+        dispatch(newPass(password, username));
 
         const secondState = getState();
         if(secondState.password.progress != firstState.password.progress) {

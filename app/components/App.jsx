@@ -28,8 +28,8 @@ export class App extends React.Component {
       <div id="container">
         <SCORM dispatch={this.props.dispatch} tracking={this.props.tracking} config={GLOBAL_CONFIG}/>
         <Header user_profile={this.props.user_profile} tracking={this.props.tracking} config={GLOBAL_CONFIG}/>
-        <MyEntry dispatch={this.props.dispatch} tracking={this.props.tracking} config={GLOBAL_CONFIG}/>
-        <Feedback recommendations={this.props.password.recommendations} crack_times_display={this.props.password.crack_times_display}/>
+        <MyEntry dispatch={this.props.dispatch} user_profile={this.props.user_profile} config={GLOBAL_CONFIG}/>
+        <Feedback conclussion={this.props.password.conclussion} recommendations={this.props.password.recommendations} crack_times_display={this.props.password.crack_times_display}/>
     </div>
     );
   }

@@ -12,7 +12,7 @@ export default class MyEntry extends React.Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
-    this.props.dispatch(newPassWithScorm(event.target.value));
+    this.props.dispatch(newPassWithScorm(event.target.value, this.props.user_profile.name));
   }
 
   handleSubmit(event) {

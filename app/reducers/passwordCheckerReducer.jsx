@@ -5,18 +5,19 @@ import zxcvbn from 'zxcvbn';
 function passwordCheckerReducer(state = INITIAL_STATE.password, action){
   switch (action.type){
   case 'NEW_PASSWORD_TO_CHECK':
-    return checkPasswd(action.password);
+    return checkPasswd(action.password, action.username);
   default:
     return state;
   }
 }
 
 /*progress consist of 3 steps*/
-export function checkPasswd(password){
+export function checkPasswd(password, username){
   let initialState = {
     password: password,
     crack_times_display: {offline_fast_hashing_1e10_per_second: "", offline_slow_hashing_1e4_per_second: "", online_no_throttling_10_per_second: "", online_throttling_100_per_hour: ""},
     recommendations: [],
+    conclussion: 0,
     progress: 0,
     score: 0
   }
@@ -34,9 +35,8 @@ export function checkPasswd(password){
   }
   */
   //TODO meter en el array vacio este un diccionario de castellano y el username y passwords tipicas españolas
-  let result = zxcvbn(password, []);
+  let result = zxcvbn(password, [username]);
   console.log(result);
-  let score = result.score;
   initialState.crack_times_display.offline_fast_hashing_1e10_per_second = Utils.translateTime(result.crack_times_display.offline_fast_hashing_1e10_per_second);
   initialState.crack_times_display.offline_slow_hashing_1e4_per_second = Utils.translateTime(result.crack_times_display.offline_slow_hashing_1e4_per_second);
   initialState.crack_times_display.online_no_throttling_10_per_second = Utils.translateTime(result.crack_times_display.online_no_throttling_10_per_second);
@@ -47,6 +47,8 @@ export function checkPasswd(password){
       initialState.recommendations.push(Utils.translate(element));
     });
   }
+
+  initialState.conclussion = result.score;
 
   return initialState;
 }
