@@ -26,3 +26,22 @@ export function objectiveAccomplished(objectiveId, accomplishedScore = null){
     accomplished_score:accomplishedScore,
   };
 }
+
+
+// An example of checking state after a dispatch
+export function newPass(password) {
+    return (dispatch, getState) => {
+        const firstState = getState();
+        dispatch({
+          type:'NEW_PASSWORD_TO_CHECK',
+          password:password,
+        });
+
+        const secondState = getState();
+        console.log(secondState);
+        if(secondState.password.progress != firstState.password.progress) {
+            console.log("lanzamos la segunda accion");
+            dispatch(objectiveAccomplished(secondState.tracking.objectives.MyPassword.id, 1));
+        }
+      }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, compose, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 import {AppContainer} from 'react-hot-loader';
 
 import {INITIAL_STATE} from '../constants/constants';
@@ -15,7 +16,7 @@ export default class ReduxProvider extends React.Component {
     this.store = this.configureStore();
   }
   configureStore(){
-    const store = createStore(GlobalState, this.initialState);
+    const store = createStore(GlobalState, this.initialState, applyMiddleware(thunk));
     if(module.hot){
       module.hot.accept('./../reducers/reducers', () => {
         const nextRootReducer = require('./../reducers/reducers').default;
