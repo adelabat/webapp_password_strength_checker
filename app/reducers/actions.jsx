@@ -27,18 +27,24 @@ export function objectiveAccomplished(objectiveId, accomplishedScore = null){
   };
 }
 
+function newPass(password){
+  return {
+    type:'NEW_PASSWORD_TO_CHECK',
+    password:password,
+  }
+}
 
-// An example of checking state after a dispatch
-export function newPass(password) {
+// Uso Thunk para encadenar acciones
+//si la acción newPass cambia y el alumno consigue un objetivo, lo lanzo desde aquí
+//la opción alternativa a hacerlo así, que yo haya visto, es hacerlo en willreceiveprops
+//ver si nextprops ha cambiado el progress y lanzar otra action ahí, pero esto de thunk me ha
+//parecido más correcto
+export function newPassWithScorm(password) {
     return (dispatch, getState) => {
         const firstState = getState();
-        dispatch({
-          type:'NEW_PASSWORD_TO_CHECK',
-          password:password,
-        });
+        dispatch(newPass(password));
 
         const secondState = getState();
-        console.log(secondState);
         if(secondState.password.progress != firstState.password.progress) {
             console.log("lanzamos la segunda accion");
             dispatch(objectiveAccomplished(secondState.tracking.objectives.MyPassword.id, 1));

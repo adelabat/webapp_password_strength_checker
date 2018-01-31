@@ -1,5 +1,5 @@
 import React from 'react';
-import {newPass} from './../reducers/actions';
+import {newPassWithScorm} from './../reducers/actions';
 
 export default class MyEntry extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class MyEntry extends React.Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
-    this.props.dispatch(newPass(event.target.value));
+    this.props.dispatch(newPassWithScorm(event.target.value));
   }
 
   handleSubmit(event) {

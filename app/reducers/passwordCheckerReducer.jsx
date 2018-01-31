@@ -1,5 +1,6 @@
-import {INITIAL_STATE} from '../constants/constants';
+import {INITIAL_STATE, RULES, RECOMMENDATIONS} from '../constants/constants';
 import * as Utils from '../vendors/Utils.js';
+import zxcvbn from 'zxcvbn';
 
 function passwordCheckerReducer(state = INITIAL_STATE.password, action){
   switch (action.type){
@@ -14,14 +15,38 @@ function passwordCheckerReducer(state = INITIAL_STATE.password, action){
 export function checkPasswd(password){
   let initialState = {
     password: password,
-    time_to_crack: "1 año",
-    recommendations: [ "Incluye mayúsculas y minúsculas", "Incluye números"],
-    progress: 1,
-    score: 1
+    crack_times_display: {offline_fast_hashing_1e10_per_second: "", offline_slow_hashing_1e4_per_second: "", online_no_throttling_10_per_second: "", online_throttling_100_per_hour: ""},
+    recommendations: [],
+    progress: 0,
+    score: 0
   }
-  //check no username in password
-  //podría poner un campo en el estado que indique si ha cambiado el progress y según ese campo en el App lanzo la otra action
-  
+  //TODO check no username in password
+  /*
+  if(password.length < RULES.too_short){
+    initialState.recommendations.push(RECOMMENDATIONS.too_short);
+  } else {
+    initialState.progress = 1;
+    initialState.score = 1;
+  }
+
+  if( /[a-z]+/i.test(password) && /[0-9]+/.test(password)){
+    initialState.recommendations.push(RECOMMENDATIONS.too_short);
+  }
+  */
+  //TODO meter en el array vacio este un diccionario de castellano y el username y passwords tipicas españolas
+  let result = zxcvbn(password, []);
+  console.log(result);
+  let score = result.score;
+  initialState.crack_times_display.offline_fast_hashing_1e10_per_second = Utils.translateTime(result.crack_times_display.offline_fast_hashing_1e10_per_second);
+  initialState.crack_times_display.offline_slow_hashing_1e4_per_second = Utils.translateTime(result.crack_times_display.offline_slow_hashing_1e4_per_second);
+  initialState.crack_times_display.online_no_throttling_10_per_second = Utils.translateTime(result.crack_times_display.online_no_throttling_10_per_second);
+  initialState.crack_times_display.online_throttling_100_per_hour = Utils.translateTime(result.crack_times_display.online_throttling_100_per_hour);
+
+  if(result.feedback.suggestions.length>0){
+    result.feedback.suggestions.forEach(function(element) {
+      initialState.recommendations.push(Utils.translate(element));
+    });
+  }
 
   return initialState;
 }

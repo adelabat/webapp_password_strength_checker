@@ -12,9 +12,21 @@ export const INITIAL_STATE = {
   },
   password:{
       password: "",
-      time_to_crack: "",
+      crack_times_display: "",
       recommendations: [],
       progress: 0,
       score: 0
   }
+};
+
+export const RULES = {
+  too_short: 8,
+
+};
+
+export const RECOMMENDATIONS = {
+  too_short: "La contraseña es demasiado corta",
+  includeNumbersAndLetters: "La contraseña debe incluir números y letras"
+
+
 };
