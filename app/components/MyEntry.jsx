@@ -4,10 +4,11 @@ import {newPassWithScorm} from './../reducers/actions';
 export default class MyEntry extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {value: '', hide_pass: true};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleChange(event) {
@@ -20,12 +21,17 @@ export default class MyEntry extends React.Component {
     event.preventDefault();
   }
 
+  handleInputChange(event) {
+    this.setState({hide_pass: event.target.checked});
+
+  }
+
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          <input type="text" placeholder="Introduce una contraseña para comprobar su fortaleza" value={this.state.value} onChange={this.handleChange} />
-        </label>
+          <input type={this.state.hide_pass ? 'password':'text'} id="mypassword" placeholder="Introduce una contraseña para comprobar su fortaleza" value={this.state.value} onChange={this.handleChange} />
+          <input name="hide_pass" id="hide_pass" type="checkbox" checked={this.state.hide_pass} onChange={this.handleInputChange} />
+          <label for="hide_pass">Ocultar</label>
       </form>
     );
   }
