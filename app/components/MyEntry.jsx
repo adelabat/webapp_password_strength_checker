@@ -1,7 +1,7 @@
 import React from 'react';
 import {newPassWithScorm} from './../reducers/actions';
 
-import { Button } from 'react-bootstrap';
+import { Button, FormGroup, FormControl } from 'react-bootstrap';
 
 export default class MyEntry extends React.Component {
   constructor(props) {
@@ -30,9 +30,11 @@ export default class MyEntry extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-          <input type={this.state.hide_pass ? 'password':'text'} autoComplete="off" id="mypassword" placeholder="Introduce una contraseña para comprobar su fortaleza" value={this.state.value} onChange={this.handleChange} />
-          <Button bsStyle="primary" type="submit" >Comprobar</Button><br/>
+      <form className="form_pass" onSubmit={this.handleSubmit}>
+          <FormGroup bsSize="large">
+              <FormControl className="my_input" type={this.state.hide_pass ? 'password':'text'} autoComplete="off" id="mypassword" placeholder="Introduce una contraseña para comprobar su fortaleza" value={this.state.value} onChange={this.handleChange} />
+              <Button bsStyle="primary" type="submit" >Comprobar</Button><br/>
+        </FormGroup>
           <input name="hide_pass" id="hide_pass" type="checkbox" checked={this.state.hide_pass} onChange={this.handleInputChange} />
           <label htmlFor="hide_pass">Ocultar</label>
       </form>

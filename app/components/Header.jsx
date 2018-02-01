@@ -20,7 +20,7 @@ export default class Header extends React.Component {
     }
     if(this.props.user_profile){
       if((typeof this.props.user_profile.name === "string")){
-        loggedText = ("Logueado como " + this.props.user_profile.name);
+        loggedText = ("Logueado como: " + this.props.user_profile.name);
       }
       if(typeof this.props.user_profile.learner_preference === "object"){
         if(typeof this.props.user_profile.learner_preference.difficulty === "number"){
@@ -29,10 +29,6 @@ export default class Header extends React.Component {
       }
     }
 
-    let loggedEl = null;
-    if(typeof loggedText === "string"){
-      loggedEl = <p id="logged_user">{loggedText}</p>;
-    }
     let trackingEls = trackingTexts.map(function(text, index){
       return <span key={index}>{text}</span>;
     });
@@ -40,9 +36,8 @@ export default class Header extends React.Component {
     return (
       <div>
         <h1 id="heading">Comprueba la Fortaleza de Contraseñas</h1>
-        <p id="tracking">{trackingEls}</p>
-        {loggedEl}
-        <p>Feedback de la actividad: {this.props.activity_feedback}</p>
+        <p id="tracking"><span>{loggedText}</span>{trackingEls}</p>
+        <p id="activity_feedback">Feedback de la actividad: {this.props.activity_feedback}</p>
       </div>
     );
   }

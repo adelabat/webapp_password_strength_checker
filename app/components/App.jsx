@@ -11,6 +11,7 @@ import SCORM from './SCORM.jsx';
 import Header from './Header.jsx';
 import MyEntry from './MyEntry.jsx';
 import Feedback from './Feedback.jsx';
+import MyAlert from './MyAlert.jsx';
 
 import * as SCORM_WRAPPER from '../vendors/SCORM_API_Wrapper.js';
 
@@ -29,8 +30,9 @@ export class App extends React.Component {
       <div id="container">
         <SCORM dispatch={this.props.dispatch} tracking={this.props.tracking} config={GLOBAL_CONFIG}/>
         <Header activity_feedback={this.props.password.activity_feedback} user_profile={this.props.user_profile} tracking={this.props.tracking} config={GLOBAL_CONFIG}/>
+        <MyAlert/>
         <MyEntry dispatch={this.props.dispatch} user_profile={this.props.user_profile} config={GLOBAL_CONFIG}/>
-        <Feedback  conclussion={this.props.password.conclussion} recommendations={this.props.password.recommendations} crack_times_display={this.props.password.crack_times_display}/>
+        <Feedback conclussion={this.props.password.conclussion} recommendations={this.props.password.recommendations} crack_times_display={this.props.password.crack_times_display}/>
     </div>
     );
   }
