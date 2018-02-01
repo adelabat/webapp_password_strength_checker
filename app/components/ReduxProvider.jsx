@@ -5,7 +5,7 @@ import {createStore, compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {AppContainer} from 'react-hot-loader';
 
-import {INITIAL_STATE} from '../constants/constants';
+import {INITIAL_STATE} from '../constants/constants.js';
 import GlobalState from './../reducers/reducers';
 import App from './App';
 

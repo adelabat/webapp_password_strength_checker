@@ -46,9 +46,11 @@ export function newPassWithScorm(password, username) {
         dispatch(newPass(password, username));
 
         const secondState = getState();
-        if(secondState.password.progress != firstState.password.progress) {
-            console.log("lanzamos la segunda accion");
-            dispatch(objectiveAccomplished(secondState.tracking.objectives.MyPassword.id, 1));
+        //check if there is a new objectives_accomplished
+        if(secondState.password.objectives_accomplished.length != firstState.password.objectives_accomplished.length) {
+            let last = secondState.password.objectives_accomplished.length-1;
+            console.log("Objetivo cumplido: ", secondState.password.objectives_accomplished[last]);
+            dispatch(objectiveAccomplished(secondState.password.objectives_accomplished[last].id, secondState.password.objectives_accomplished[last].score));
         }
       }
 }

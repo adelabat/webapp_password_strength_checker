@@ -42,6 +42,7 @@ export default class Header extends React.Component {
         <h1 id="heading">Comprueba la Fortaleza de Contraseñas</h1>
         <p id="tracking">{trackingEls}</p>
         {loggedEl}
+        <p>Feedback de la actividad: {this.props.activity_feedback}</p>
       </div>
     );
   }
