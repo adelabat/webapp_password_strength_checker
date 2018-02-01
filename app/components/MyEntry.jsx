@@ -1,6 +1,8 @@
 import React from 'react';
 import {newPassWithScorm} from './../reducers/actions';
 
+import { Button } from 'react-bootstrap';
+
 export default class MyEntry extends React.Component {
   constructor(props) {
     super(props);
@@ -13,12 +15,12 @@ export default class MyEntry extends React.Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
-    this.props.dispatch(newPassWithScorm(event.target.value, this.props.user_profile.name));
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
+    this.props.dispatch(newPassWithScorm(this.state.value, this.props.user_profile.name));
+    this.setState({ value: "" });
   }
 
   handleInputChange(event) {
@@ -29,9 +31,10 @@ export default class MyEntry extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-          <input type={this.state.hide_pass ? 'password':'text'} id="mypassword" placeholder="Introduce una contraseña para comprobar su fortaleza" value={this.state.value} onChange={this.handleChange} />
+          <input type={this.state.hide_pass ? 'password':'text'} autoComplete="off" id="mypassword" placeholder="Introduce una contraseña para comprobar su fortaleza" value={this.state.value} onChange={this.handleChange} />
+          <Button bsStyle="primary" type="submit" >Comprobar</Button><br/>
           <input name="hide_pass" id="hide_pass" type="checkbox" checked={this.state.hide_pass} onChange={this.handleInputChange} />
-          <label for="hide_pass">Ocultar</label>
+          <label htmlFor="hide_pass">Ocultar</label>
       </form>
     );
   }
