@@ -20,6 +20,7 @@ function checkPasswd(state, action){
 
   let result = zxcvbn(action.password, [action.username]);
   console.log(result);
+  receivedState.password = action.password;
   receivedState.crack_times_display.offline_fast_hashing_1e10_per_second = Utils.translateTime(result.crack_times_display.offline_fast_hashing_1e10_per_second);
   receivedState.crack_times_display.offline_slow_hashing_1e4_per_second = Utils.translateTime(result.crack_times_display.offline_slow_hashing_1e4_per_second);
   receivedState.crack_times_display.online_no_throttling_10_per_second = Utils.translateTime(result.crack_times_display.online_no_throttling_10_per_second);
@@ -31,6 +32,8 @@ function checkPasswd(state, action){
       receivedState.recommendations.push(Utils.translate(element));
     });
   }
+
+  receivedState.sequence = result.sequence;
 
   receivedState.conclussion = result.score;
 

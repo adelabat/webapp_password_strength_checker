@@ -29,9 +29,6 @@ export default class MyAlert extends React.Component {
           <p>
             No introduzcas tu contraseña real. Este servicio solo tiene fines educativos.
           </p>
-          <p>
-          <Button onClick={this.handleDismiss}>Ocultar</Button>
-          </p>
         </Alert>
       );
     } else {

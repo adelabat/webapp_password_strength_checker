@@ -16,6 +16,7 @@ export const INITIAL_STATE = {
       recommendations: [],
       activity_feedback: "",
       conclussion: 0,
+      sequence: [],
       objectives_accomplished: []
   }
 };
@@ -47,7 +48,15 @@ export const TRANSLATIONS = {
   "Reversed words aren't much harder to guess":"Palabras invertidad son casi tan sencillas de adivinar como las normales",
   "Predictable substitutions like '@' instead of 'a' don't help very much":"Sustituciones predecibles como '@' en lugar de 'a' son sencillas de adivinar",
   "Add another word or two. Uncommon words are better.": "Añade alguna otra palabra. Palabras que no estén en el diccionario mejor.",
-  "less than a second": "menos de un segundo"
+  "less than a second": "menos de un segundo",
+  "dictionary": "diccionario",
+  "bruteforce": "fuerza bruta",
+  "spatial": "teclas cercanas en el teclado",
+  "repeat": "repetición",
+  "regex": "patrón",
+  "date": "fecha",
+  "sequence": "secuencia"
+
 };
 
 export const CONCLUSSION_TEXTS = [
@@ -62,7 +71,7 @@ export const CONCLUSSION_TEXTS = [
 //second: check medium strong password-> id: "medium_password"
 //third: check very strong password-> id: "strong_password"
 export const OBJECTIVES = [
-  {id:"weak_password", progress_measure:0.33, score:0.2},
-  {id:"medium_password", progress_measure:0.33, score:0.3},
-  {id:"strong_password", progress_measure:0.34, score:0.5}
+  {id:"weak_password", progress_measure:0.33, score:0.2, desc: "Comprueba una contraseña débil (20% de la nota)"},
+  {id:"medium_password", progress_measure:0.33, score:0.3, desc: "Comprueba una contraseña de fortaleza media (30% de la nota)"},
+  {id:"strong_password", progress_measure:0.34, score:0.5, desc: "Comprueba una contraseña robusta (50% de la nota)"}
 ];

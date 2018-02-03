@@ -1,5 +1,6 @@
 import React from 'react';
 import MyModal from './MyModal.jsx';
+import MoreInfo from './MoreInfo.jsx';
 import { Button, Panel} from 'react-bootstrap';
 import {CONCLUSSION_TEXTS} from '../constants/constants.js';
 
@@ -24,21 +25,30 @@ export default class Feedback extends React.Component {
       <div className="">
           <Panel bsStyle="success" className="pass_info">
               <Panel.Heading>
-                <Panel.Title componentClass="h3">Información sobre la contraseña introducida:</Panel.Title>
+                <Panel.Title componentClass="h3">Información sobre la contraseña introducida: {this.props.hide_pass ? "": <b>{this.props.password}</b>}</Panel.Title>
               </Panel.Heading>
               <Panel.Body>
-                <p>La contraseña se tardaría en romper: </p>
+                <p>La contraseña se tardaría en romper:
+                  <Button bsStyle="primary" bsSize="small" onClick={this.handleShow}>
+                    Explicación
+                  </Button>
+                </p>
                 # En un ataque offline. Esto es si se roba la base de datos de contraseñas cuanto se tarda en adivinar la que has escrito:
                 <b>{this.props.crack_times_display.offline_slow_hashing_1e4_per_second}</b><br/>
                 # En un ataque online a 10 contraseñas por segundo:
                 <b>{this.props.crack_times_display.online_no_throttling_10_per_second}</b>
-                <Button bsStyle="primary" bsSize="small" onClick={this.handleShow}>
-                  Explicación
-                </Button>
+
                 <br/>
                 # En un ataque online a 100 contraseñas por hora:
                 <b>{this.props.crack_times_display.online_throttling_100_per_hour}</b><br/>
                 <br/>
+
+                Más información:
+                <div>
+                  {this.props.sequence.map((seq, index) => {
+                      return (<MoreInfo sequence_size={this.props.sequence.length} seq={seq} index={index} hide_pass={this.props.hide_pass} key={index}/>);
+                    })}
+                </div>
 
                 <div>Recomendaciones:</div>
                 {this.props.recommendations.map((rec, index) => {
