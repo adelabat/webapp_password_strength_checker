@@ -1,7 +1,6 @@
 import React from 'react';
 import MyModal from './MyModal.jsx';
 import MoreInfo from './MoreInfo.jsx';
-import { Button, Panel} from 'react-bootstrap';
 import {CONCLUSSION_TEXTS} from '../constants/constants.js';
 
 
@@ -20,18 +19,20 @@ export default class Feedback extends React.Component {
    handleShow() {
      this.setState({ showModal: true });
    }
+
    render(){
      return (
       <div className="">
-          <Panel bsStyle="success" className="pass_info">
-              <Panel.Heading>
-                <Panel.Title componentClass="h3">Información sobre la contraseña introducida: {this.props.hide_pass ? "": <b>{this.props.password}</b>}</Panel.Title>
-              </Panel.Heading>
-              <Panel.Body>
+          <div className="pass_info">
+              <div className="panel-heading">
+                <h3 className="panel-title">Información sobre la contraseña introducida: {this.props.hide_pass ? "": <b>{this.props.password}</b>}
+                </h3>
+              </div>
+              <div className="panel-body">
                 <p>La contraseña se tardaría en romper:
-                  <Button bsStyle="primary" bsSize="small" onClick={this.handleShow}>
+                  <button onClick={this.handleShow}>
                     Explicación
-                  </Button>
+                  </button>
                 </p>
                 # En un ataque offline. Esto es si se roba la base de datos de contraseñas cuanto se tarda en adivinar la que has escrito:
                 <b>{this.props.crack_times_display.offline_slow_hashing_1e4_per_second}</b><br/>
@@ -59,8 +60,8 @@ export default class Feedback extends React.Component {
                 <div>Conclusión: {CONCLUSSION_TEXTS[this.props.conclussion]}</div>
                 <div>Otras recomendaciones generales: no utilice palabras del diccionario como contraseñas, a ser posible que su contraseña no contenga su nombre de usuario, ...</div>
 
-              </Panel.Body>
-            </Panel>
+              </div>
+            </div>
         <MyModal show={this.state.showModal} handleClose={this.handleClose}/>
       </div>
     );

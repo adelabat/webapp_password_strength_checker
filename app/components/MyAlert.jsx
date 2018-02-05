@@ -22,17 +22,16 @@ export default class MyAlert extends React.Component {
   }
 
   render() {
-    if (this.state.show) {
       return (
-        <Alert bsStyle="warning" bsSize="xsmall" onDismiss={this.handleDismiss}>
+        <div className={this.state.show ? "show":"hide"}>
+          <button type="button" className="close">
+            <span aria-hidden="true" onClick={this.handleDismiss}>×</span>
+            </button>
           <h4>Esta aplicación no guarda ni almacena tus contraseñas</h4>
           <p>
             No introduzcas tu contraseña real. Este servicio solo tiene fines educativos.
           </p>
-        </Alert>
+        </div>
       );
-    } else {
-      return null;
-    }
   }
 }
