@@ -40,7 +40,7 @@ export default class Header extends React.Component {
         <p id="tracking">{loggedText}{trackingEls}</p>
         <div className="objectives">
           {OBJECTIVES.map((obj, index)=>{
-              let icon = this.props.objectives_accomplished.some(e => e.id === obj.id) ? <i class="glyphicon glyphicon-ok"></i>: <i class="glyphicon glyphicon-remove"></i>;
+              let icon = this.props.objectives_accomplished.some(e => e.id === obj.id) ? <i className="glyphicon glyphicon-ok"></i>: <i className="glyphicon glyphicon-remove"></i>;
               return <div key={index}>{icon}{obj.desc}</div>;
             })
           }
