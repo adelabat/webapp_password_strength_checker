@@ -12,16 +12,18 @@ import Header from './Header.jsx';
 import MyEntry from './MyEntry.jsx';
 import Feedback from './Feedback.jsx';
 import MyAlert from './MyAlert.jsx';
+import MyModalLast from './MyModalLast.jsx';
 
 import * as SCORM_WRAPPER from '../vendors/SCORM_API_Wrapper.js';
 
 export class App extends React.Component {
   constructor(props){
     super(props);
-    this.state = {value: '', hide_pass: false };
+    this.state = {value: '', hide_pass: false, show_last: true };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEyeChange = this.handleEyeChange.bind(this);
+    this.handleCloseLast = this.handleCloseLast.bind(this);
   }
 
   handleInputChange(event) {
@@ -39,6 +41,8 @@ export class App extends React.Component {
     this.setState({hide_pass: new_state});
   }
 
+
+
   componentDidMount(){
     let all_objectives = OBJECTIVES.map((obj, index)=>{
       return new Utils.objective({id:obj.id, progress_measure: obj.progress_measure, score: obj.score});
@@ -46,7 +50,12 @@ export class App extends React.Component {
     this.props.dispatch(addObjectives(all_objectives));
   }
 
+  handleCloseLast(){
+    this.setState({show_last: false});
+  }
+
   render(){
+    let showModalLast = this.props.password.objectives_accomplished.length === 3 && this.state.show_last;
     return (
       <div id="container">
         <SCORM dispatch={this.props.dispatch} tracking={this.props.tracking} config={GLOBAL_CONFIG}/>
@@ -54,6 +63,7 @@ export class App extends React.Component {
         <MyAlert/>
         <MyEntry handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleEyeChange={this.handleEyeChange} value={this.state.value} hide_pass={this.state.hide_pass} dispatch={this.props.dispatch} user_profile={this.props.user_profile} config={GLOBAL_CONFIG}/>
         <Feedback hide_pass={this.state.hide_pass} password={this.props.password.password} sequence={this.props.password.sequence} conclussion={this.props.password.conclussion} recommendations={this.props.password.recommendations} crack_times_display={this.props.password.crack_times_display}/>
+        <MyModalLast show={showModalLast} handleClose={this.handleCloseLast}/>
     </div>
     );
   }
