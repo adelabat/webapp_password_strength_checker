@@ -37,6 +37,17 @@ function checkPasswd(state, action){
 
   receivedState.conclussion = result.score;
 
+  //check password content
+  var letters = /[a-z]/;
+  var nums = /[0-9]/;
+  let uppercase = /[A-Z]/;
+  let special = /[$&+,:;=?@#|'<>.^*()%!-]/;
+  receivedState.contains.letters = receivedState.password.match(letters);
+  receivedState.contains.numbers = receivedState.password.match(nums);
+  receivedState.contains.uppercase = receivedState.password.match(uppercase);
+  receivedState.contains.special = receivedState.password.match(special);
+
+
   //check progress
   if(result.score===0 || result.score===1){
     if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[0].id)){

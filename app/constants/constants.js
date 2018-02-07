@@ -12,6 +12,13 @@ export const INITIAL_STATE = {
   },
   password:{
       password: "",
+      contains: {
+        letters: false,
+        numbers: false,
+        uppercase: false,
+        special: false
+      },
+      contains_special_chars: false,
       crack_times_display: {offline_fast_hashing_1e10_per_second: "", offline_slow_hashing_1e4_per_second: "", online_no_throttling_10_per_second: "", online_throttling_100_per_hour: ""},
       recommendations: [],
       activity_feedback: "",
