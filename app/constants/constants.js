@@ -11,6 +11,7 @@ export const INITIAL_STATE = {
     learner_preference:{},
   },
   password:{
+      game_started: false,
       password: "",
       contains: {
         letters: false,
@@ -24,7 +25,8 @@ export const INITIAL_STATE = {
       activity_feedback: "",
       conclussion: 0,
       sequence: [],
-      objectives_accomplished: []
+      objectives_accomplished: [],
+      objectives_repeated: []
   }
 };
 
@@ -72,13 +74,4 @@ export const CONCLUSSION_TEXTS = [
   "La contraseña introducida algo dificil de adivinar, un ordenador atacante la adivina en menos de 100.000.000 intentos. !Puede parecer mucho pero recuerda que los ordenadores no se cansan!",
   "La contraseña introducida dificil de adivinar, protege bien de los ataques. Un ordenador atacante la adivina en menos de 10.000.000.000 intentos.",
   "La contraseña introducida muy dificil de adivinar, protege muy bien de los ataques. Un ordenador atacante la adivina en más de 10.000.000.000 intentos."
-];
-
-//first: check weak password-> id: "weak_password"
-//second: check medium strong password-> id: "medium_password"
-//third: check very strong password-> id: "strong_password"
-export const OBJECTIVES = [
-  {id:"weak_password", progress_measure:0.33, score:0.2, desc: "Comprueba una contraseña débil (20% de la nota)"},
-  {id:"medium_password", progress_measure:0.33, score:0.3, desc: "Comprueba una contraseña de fortaleza media (30% de la nota)"},
-  {id:"strong_password", progress_measure:0.34, score:0.5, desc: "Comprueba una contraseña robusta (50% de la nota)"}
 ];

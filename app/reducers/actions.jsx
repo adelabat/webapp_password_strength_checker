@@ -54,3 +54,21 @@ export function newPassWithScorm(password, username) {
         }
       }
 }
+
+export function startgame(){
+  return {
+    type:'START_GAME'
+  };
+}
+
+export function resetgame(){
+  return {
+    type:'RESET_GAME'
+  };
+}
+
+export function resetfeedback(){
+  return {
+    type:'RESET_FEEDBACK'
+  };
+}

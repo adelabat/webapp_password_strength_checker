@@ -16,7 +16,11 @@ export default class ReduxProvider extends React.Component {
     this.store = this.configureStore();
   }
   configureStore(){
-    const store = createStore(GlobalState, this.initialState, applyMiddleware(thunk));
+    const enhancers = compose(
+      applyMiddleware(thunk),
+      window.devToolsExtension ? window.devToolsExtension():f=>f
+    );
+    const store = createStore(GlobalState, this.initialState, enhancers);
     if(module.hot){
       module.hot.accept('./../reducers/reducers', () => {
         const nextRootReducer = require('./../reducers/reducers').default;

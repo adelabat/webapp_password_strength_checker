@@ -1,13 +1,31 @@
 import * as Utils from '../vendors/Utils.js';
 import zxcvbn from 'zxcvbn';
-import {INITIAL_STATE, OBJECTIVES} from '../constants/constants';
+import {INITIAL_STATE} from '../constants/constants';
+import {OBJECTIVES} from '../config/objectives.js';
+
+
 
 function passwordCheckerReducer(state = INITIAL_STATE.password, action){
+  let receivedState;
   switch (action.type){
-  case 'NEW_PASSWORD_TO_CHECK':
-    return checkPasswd(state, action);
-  default:
-    return state;
+    case 'START_GAME':
+      receivedState = JSON.parse(JSON.stringify(state));
+      receivedState = INITIAL_STATE.password;
+      receivedState.game_started = true;
+      return receivedState;
+    case 'RESET_GAME':
+      receivedState = JSON.parse(JSON.stringify(state));
+      receivedState = INITIAL_STATE.password;
+      receivedState.game_started = true;
+      return receivedState;
+    case 'RESET_FEEDBACK':
+      receivedState = JSON.parse(JSON.stringify(state));
+      receivedState.activity_feedback = "";
+      return receivedState;
+    case 'NEW_PASSWORD_TO_CHECK':
+      return checkPasswd(state, action);
+    default:
+      return state;
   }
 }
 
@@ -34,7 +52,6 @@ function checkPasswd(state, action){
   }
 
   receivedState.sequence = result.sequence;
-
   receivedState.conclussion = result.score;
 
   //check password content
@@ -47,25 +64,34 @@ function checkPasswd(state, action){
   receivedState.contains.uppercase = receivedState.password.match(uppercase);
   receivedState.contains.special = receivedState.password.match(special);
 
-
   //check progress
   if(result.score===0 || result.score===1){
-    if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[0].id)){
-      receivedState.activity_feedback = "Ya has comprobado una contraseña sencilla. Prueba ahora con contraseñas más complejas.";
+    //Si comprueba dos veces una contraseña de un mismo tipo le sacamos un modal de ayuda
+    if(receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[0].id)){
+      receivedState.activity_feedback = "Ya has comprobado una contraseña sencilla. Prueba ahora con contraseñas más complejas. Si no sabes cómo te ayudamos:";
+    } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[0].id)){
+      receivedState.activity_feedback = "";
+      receivedState.objectives_repeated.push(OBJECTIVES[0]);
     } else {
       receivedState.activity_feedback = "";
       receivedState.objectives_accomplished.push(OBJECTIVES[0]);
     }
   } else if(result.score===2 || result.score===3){
-    if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[1].id)){
-      receivedState.activity_feedback = "Ya has comprobado una contraseña de fortaleza media. Prueba ahora con contraseñas más complejas y más simples.";
+    if( receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[1].id)){
+      receivedState.activity_feedback = "Ya has comprobado una contraseña de fortaleza media. Prueba ahora con contraseñas más complejas y más simples. Si no sabes cómo te ayudamos:";
+    } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[1].id)){
+      receivedState.activity_feedback = "";
+      receivedState.objectives_repeated.push(OBJECTIVES[1]);
     } else {
       receivedState.activity_feedback = "";
       receivedState.objectives_accomplished.push(OBJECTIVES[1]);
     }
   } else if(result.score===4){
-    if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[2].id)){
+    if( receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[2].id)){
       receivedState.activity_feedback = "Ya has comprobado una contraseña robusta. Prueba ahora con contraseñas más simples.";
+    } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[2].id)){
+      receivedState.activity_feedback = "";
+      receivedState.objectives_repeated.push(OBJECTIVES[2]);
     } else {
       receivedState.activity_feedback = "";
       receivedState.objectives_accomplished.push(OBJECTIVES[2]);

@@ -1,6 +1,23 @@
+import * as Utils from '../vendors/Utils.js';
+import {OBJECTIVES} from '../config/objectives.js';
+
 function trackingReducer(state = {}, action){
   let newState;
   switch (action.type){
+    case 'RESET_GAME':
+      newState = JSON.parse(JSON.stringify(state));
+      newState.progress_measure = 0;
+      newState.score = null;
+      let all_objectives = OBJECTIVES.map((obj, index)=>{
+        return new Utils.objective({id:obj.id, progress_measure: obj.progress_measure, score: obj.score});
+      });
+
+      for(let i = 0; i < all_objectives.length; i++){
+        if(typeof all_objectives[i].id !== "undefined"){
+          newState.objectives[all_objectives[i].id] = all_objectives[i];
+        }
+      }
+      return newState;
   case 'ADD_OBJECTIVES':
     newState = JSON.parse(JSON.stringify(state));
     for(let i = 0; i < action.objectives.length; i++){

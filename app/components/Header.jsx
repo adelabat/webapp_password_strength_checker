@@ -1,5 +1,4 @@
 import React from 'react';
-import {OBJECTIVES} from '../constants/constants';
 
 export default class Header extends React.Component {
   constructor(props){
@@ -34,21 +33,25 @@ export default class Header extends React.Component {
       return <span key={index}>{text}</span>;
     });
 
-    return (
-      <div>
-        <h1 id="heading">Comprueba la Fortaleza de Contraseñas</h1>
-        <p id="tracking">{loggedText}{trackingEls}</p>
-        <div className="objectives">
-          {OBJECTIVES.map((obj, index)=>{
-              let icon = this.props.objectives_accomplished.some(e => e.id === obj.id) ? <i className="glyphicon glyphicon-ok"></i>: <i className="glyphicon glyphicon-remove"></i>;
-              return <div key={index}>{icon}{obj.desc}</div>;
-            })
-          }
+    if(this.props.game_started){
+      return (
+        <div>
+          <h1 id="heading">Comprueba la Fortaleza de Contraseñas</h1>
+          <p id="tracking">{loggedText}{trackingEls}</p>
+          <button className="" onClick={() => this.props.showModal("Info")}>Info</button>
+          <button className="" onClick={() => this.props.showModal("Progress")}>Progreso</button>
+          <button className="" onClick={() => this.props.showModal("Reset")} >Reset</button>
+          <button className="" onClick={() => this.props.showModal("Stop")} >Stop</button>
         </div>
-        {this.props.activity_feedback &&
-          <p id="activity_feedback">Feedback de la actividad: {this.props.activity_feedback}</p>
-        }
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <h1 id="heading">Comprueba la Fortaleza de Contraseñas</h1>
+          <button className="" onClick={this.props.startGame}>start</button>
+        </div>
+      );
+    }
+
   }
 }
