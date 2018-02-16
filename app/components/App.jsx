@@ -22,7 +22,7 @@ import ModalStop from './ModalStop.jsx';
 import ModalEnd from './ModalEnd.jsx';
 import ModalFeedback from './ModalFeedback.jsx';
 
-const INITIAL_STATE = { value: '', hide_pass: false, showModalFeedback:false, showModalStart: false, showModalInfo: false, showModalEnd: true, showModalProgress: false, showModalReset: false, showModalStop: false };
+const INITIAL_STATE = { value: '', hide_pass: false, showModalFeedback:false, showModalStart: false, showModalInfo: false, showModalEnd: false, showModalProgress: false, showModalReset: false, showModalStop: false };
 
 export class App extends React.Component {
   constructor(props){
@@ -47,16 +47,19 @@ export class App extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.props.dispatch(newPassWithScorm(this.state.value, this.props.user_profile.name));
     this.setState({ value: "" });
+    this.props.dispatch(newPassWithScorm(this.state.value, this.props.user_profile.name));
   }
   handleEyeChange(event) {
     let new_state = event.target.classList.contains("open") ? true : false;
     this.setState({hide_pass: new_state});
   }
-  componentWillUpdate(){
-    if(this.props.password.game_started && this.props.password.activity_feedback!=="" && this.state.showModalFeedback===false){
+  componentWillReceiveProps(nextProps){
+    if(nextProps.password.game_started && nextProps.password.activity_feedback!=="" && this.state.showModalFeedback===false){
       this.setState({showModalFeedback: true});
+    }
+    if(nextProps.password.objectives_accomplished.length === OBJECTIVES.length ){
+      this.setState({showModalEnd:true});
     }
   }
   componentDidMount(){
@@ -91,9 +94,10 @@ export class App extends React.Component {
         <ModalReset dispatch={this.props.dispatch} show={this.state.showModalReset} handleClose={this.handleCloseModal} resetState={this.resetState}/>
         <ModalStop resetState={this.resetState} dispatch={this.props.dispatch} objectives_accomplished={this.props.password.objectives_accomplished} show={this.state.showModalStop} handleClose={this.handleCloseModal} />
         <ModalFeedback activity_feedback={this.props.password.activity_feedback} activity_video={this.props.password.activity_video} show={this.state.showModalFeedback} handleClose={this.handleCloseModal}/>
-        <MyEntry handleSubmit={this.handleSubmit} contains={this.props.password.contains} conclussion={this.props.password.conclussion} handleInputChange={this.handleInputChange} handleEyeChange={this.handleEyeChange} value={this.state.value} hide_pass={this.state.hide_pass} dispatch={this.props.dispatch} user_profile={this.props.user_profile} config={GLOBAL_CONFIG}/>
+        <ModalEnd number_of_tries={this.props.password.number_of_tries} tracking={this.props.tracking} show={this.state.showModalEnd} handleClose={this.handleCloseModal}/>
+        <MyEntry handleSubmit={this.handleSubmit} password={this.props.password.password} contains={this.props.password.contains} conclussion={this.props.password.conclussion} handleInputChange={this.handleInputChange} handleEyeChange={this.handleEyeChange} value={this.state.value} hide_pass={this.state.hide_pass} dispatch={this.props.dispatch} user_profile={this.props.user_profile} config={GLOBAL_CONFIG}/>
         <Feedback hide_pass={this.state.hide_pass} password={this.props.password.password} sequence={this.props.password.sequence} conclussion={this.props.password.conclussion} recommendations={this.props.password.recommendations} crack_times_display={this.props.password.crack_times_display}/>
-    </div>
+      </div>
     );
   }
 }

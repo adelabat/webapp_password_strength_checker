@@ -16,11 +16,12 @@ function passwordCheckerReducer(state = INITIAL_STATE.password, action){
     case 'RESET_GAME':
       receivedState = JSON.parse(JSON.stringify(state));
       receivedState = INITIAL_STATE.password;
-      receivedState.game_started = true;
+      receivedState.game_started = false;
       return receivedState;
     case 'RESET_FEEDBACK':
       receivedState = JSON.parse(JSON.stringify(state));
       receivedState.activity_feedback = "";
+      receivedState.objectives_repeated = [];
       return receivedState;
     case 'NEW_PASSWORD_TO_CHECK':
       return checkPasswd(state, action);
@@ -55,14 +56,16 @@ function checkPasswd(state, action){
   receivedState.conclussion = result.score;
 
   //check password content
-  var letters = /[a-z]/;
+  var lowercase = /[a-z]/;
   var nums = /[0-9]/;
   let uppercase = /[A-Z]/;
   let special = /[$&+,:;=?@#|'<>.^*()%!-]/;
-  receivedState.contains.letters = receivedState.password.match(letters);
+  let spaces = / /;
+  receivedState.contains.lowercase = receivedState.password.match(lowercase);
   receivedState.contains.numbers = receivedState.password.match(nums);
   receivedState.contains.uppercase = receivedState.password.match(uppercase);
   receivedState.contains.special = receivedState.password.match(special);
+  receivedState.contains.spaces = receivedState.password.match(spaces);
 
   //check progress
   if(result.score===0 || result.score===1){
@@ -97,7 +100,7 @@ function checkPasswd(state, action){
       receivedState.objectives_accomplished.push(OBJECTIVES[2]);
     }
   }
-
+  receivedState.number_of_tries += 1;
   return receivedState;
 }
 

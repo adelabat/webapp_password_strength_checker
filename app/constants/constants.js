@@ -12,12 +12,14 @@ export const INITIAL_STATE = {
   },
   password:{
       game_started: false,
+      number_of_tries: 0,
       password: "",
       contains: {
-        letters: false,
+        lowercase: false,
         numbers: false,
         uppercase: false,
-        special: false
+        special: false,
+        spaces: false
       },
       contains_special_chars: false,
       crack_times_display: {offline_fast_hashing_1e10_per_second: "", offline_slow_hashing_1e4_per_second: "", online_no_throttling_10_per_second: "", online_throttling_100_per_hour: ""},
