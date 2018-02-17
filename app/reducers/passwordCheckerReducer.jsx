@@ -18,6 +18,11 @@ function passwordCheckerReducer(state = INITIAL_STATE.password, action){
       receivedState = INITIAL_STATE.password;
       receivedState.game_started = false;
       return receivedState;
+    case 'END_GAME':
+      receivedState = JSON.parse(JSON.stringify(state));
+      receivedState = INITIAL_STATE.password;
+      receivedState.game_ended = true;
+      return receivedState;
     case 'RESET_FEEDBACK':
       receivedState = JSON.parse(JSON.stringify(state));
       receivedState.activity_feedback = "";
@@ -67,40 +72,43 @@ function checkPasswd(state, action){
   receivedState.contains.special = receivedState.password.match(special);
   receivedState.contains.spaces = receivedState.password.match(spaces);
 
-  //check progress
-  if(result.score===0 || result.score===1){
-    //Si comprueba dos veces una contraseña de un mismo tipo le sacamos un modal de ayuda
-    if(receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[0].id)){
-      receivedState.activity_feedback = "Ya has comprobado una contraseña sencilla. Prueba ahora con contraseñas más complejas. Si no sabes cómo te ayudamos:";
-    } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[0].id)){
-      receivedState.activity_feedback = "";
-      receivedState.objectives_repeated.push(OBJECTIVES[0]);
-    } else {
-      receivedState.activity_feedback = "";
-      receivedState.objectives_accomplished.push(OBJECTIVES[0]);
-    }
-  } else if(result.score===2 || result.score===3){
-    if( receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[1].id)){
-      receivedState.activity_feedback = "Ya has comprobado una contraseña de fortaleza media. Prueba ahora con contraseñas más complejas y más simples. Si no sabes cómo te ayudamos:";
-    } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[1].id)){
-      receivedState.activity_feedback = "";
-      receivedState.objectives_repeated.push(OBJECTIVES[1]);
-    } else {
-      receivedState.activity_feedback = "";
-      receivedState.objectives_accomplished.push(OBJECTIVES[1]);
-    }
-  } else if(result.score===4){
-    if( receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[2].id)){
-      receivedState.activity_feedback = "Ya has comprobado una contraseña robusta. Prueba ahora con contraseñas más simples.";
-    } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[2].id)){
-      receivedState.activity_feedback = "";
-      receivedState.objectives_repeated.push(OBJECTIVES[2]);
-    } else {
-      receivedState.activity_feedback = "";
-      receivedState.objectives_accomplished.push(OBJECTIVES[2]);
-    }
+  //user playing game
+  if(receivedState.game_started && !receivedState.game_ended){
+      if(result.score===0 || result.score===1){
+        //Si comprueba dos veces una contraseña de un mismo tipo le sacamos un modal de ayuda
+        if(receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[0].id)){
+          receivedState.activity_feedback = "Ya has comprobado una contraseña sencilla. Prueba ahora con contraseñas más complejas. Si no sabes cómo te ayudamos:";
+        } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[0].id)){
+          receivedState.activity_feedback = "";
+          receivedState.objectives_repeated.push(OBJECTIVES[0]);
+        } else {
+          receivedState.activity_feedback = "";
+          receivedState.objectives_accomplished.push(OBJECTIVES[0]);
+        }
+      } else if(result.score===2 || result.score===3){
+        if( receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[1].id)){
+          receivedState.activity_feedback = "Ya has comprobado una contraseña de fortaleza media. Prueba ahora con contraseñas más complejas y más simples. Si no sabes cómo te ayudamos:";
+        } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[1].id)){
+          receivedState.activity_feedback = "";
+          receivedState.objectives_repeated.push(OBJECTIVES[1]);
+        } else {
+          receivedState.activity_feedback = "";
+          receivedState.objectives_accomplished.push(OBJECTIVES[1]);
+        }
+      } else if(result.score===4){
+        if( receivedState.objectives_repeated.some(e => e.id === OBJECTIVES[2].id)){
+          receivedState.activity_feedback = "Ya has comprobado una contraseña robusta. Prueba ahora con contraseñas más simples.";
+        } else if(receivedState.objectives_accomplished.some(e => e.id === OBJECTIVES[2].id)){
+          receivedState.activity_feedback = "";
+          receivedState.objectives_repeated.push(OBJECTIVES[2]);
+        } else {
+          receivedState.activity_feedback = "";
+          receivedState.objectives_accomplished.push(OBJECTIVES[2]);
+        }
+      }
+      receivedState.number_of_tries += 1;
   }
-  receivedState.number_of_tries += 1;
+
   return receivedState;
 }
 

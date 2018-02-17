@@ -14,6 +14,16 @@ export default class ModalStop extends React.Component {
       this.props.resetState();
     }
     render() {
+      let modalcontent;
+      if(this.props.game_ended){
+        modalcontent = <span>¿Quieres volver a intentar la prueba?</span>;
+      } else {
+        let arr = [<span>¿Estás seguro de que quieres parar y finalizar la prueba? Todavía tienes algunas preguntas sin contestar:</span>]
+        modalcontent = arr.concat(OBJECTIVES.map((obj, index)=>{
+           return this.props.objectives_accomplished.some(e => e.id === obj.id) ?
+              null : <div key={index}><i className="glyphicon glyphicon-ok"></i>{obj.desc}</div>;
+          }));
+      }
       return (
         <div className={"modal-content " + (this.props.show ? "show":"hide")} role="document">
           <div className="modal-header">
@@ -21,12 +31,7 @@ export default class ModalStop extends React.Component {
             <h4 className="modal-title">Finalizar la prueba</h4>
             </div>
             <div className="modal-body">
-              <span>¿Estás seguro de que quieres parar y finalizar la prueba? Todavía tienes algunas preguntas sin contestar:</span>
-              {OBJECTIVES.map((obj, index)=>{
-                 return this.props.objectives_accomplished.some(e => e.id === obj.id) ?
-                    null : <div key={index}><i className="glyphicon glyphicon-ok"></i>{obj.desc}</div>;
-                })
-              }
+              {modalcontent}
             </div>
            <div className="modal-footer">
              <button type="button" className="btn btn-default" onClick={()=>this.props.handleClose("Stop")}>Continuar</button>

@@ -67,6 +67,12 @@ export function resetgame(){
   };
 }
 
+export function endgame(){
+  return {
+    type:'END_GAME'
+  };
+}
+
 export function resetfeedback(){
   return {
     type:'RESET_FEEDBACK'

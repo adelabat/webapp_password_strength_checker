@@ -21,6 +21,7 @@ export default class ModalProgress extends React.Component {
                    })
                  }
                </div>
+               {this.props.game_ended && <div>Has terminado la prueba. Puedes reiniciarla y volver a intentarlo.</div>}
            </div>
         </div>
     );

@@ -12,6 +12,7 @@ export const INITIAL_STATE = {
   },
   password:{
       game_started: false,
+      game_ended: false,
       number_of_tries: 0,
       password: "",
       contains: {
